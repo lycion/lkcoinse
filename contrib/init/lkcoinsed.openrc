@@ -1,0 +1,92 @@
+#!/sbin/runscript
+
+# backward compatibility for existing gentoo layout 
+#
+if [ -d "/var/lib/lkcoinse/.lkcoinse" ]; then
+	LKCOINSED_DEFAULT_DATADIR="/var/lib/lkcoinse/.lkcoinse"
+else
+	LKCOINSED_DEFAULT_DATADIR="/var/lib/lkcoinsed"
+fi
+
+LKCOINSED_CONFIGFILE=${LKCOINSED_CONFIGFILE:-/etc/lkcoinse/lkcoinse.conf}
+LKCOINSED_PIDDIR=${LKCOINSED_PIDDIR:-/var/run/lkcoinsed}
+LKCOINSED_PIDFILE=${LKCOINSED_PIDFILE:-${LKCOINSED_PIDDIR}/lkcoinsed.pid}
+LKCOINSED_DATADIR=${LKCOINSED_DATADIR:-${LKCOINSED_DEFAULT_DATADIR}}
+LKCOINSED_USER=${LKCOINSED_USER:-${LKCOINSE_USER:-lkcoinse}}
+LKCOINSED_GROUP=${LKCOINSED_GROUP:-lkcoinse}
+LKCOINSED_BIN=${LKCOINSED_BIN:-/usr/bin/lkcoinsed}
+LKCOINSED_NICE=${LKCOINSED_NICE:-${NICELEVEL:-0}}
+LKCOINSED_OPTS="${LKCOINSED_OPTS:-${LKCOINSE_OPTS}}"
+
+name="Lkcoinse Daemon"
+description="Lkcoinse cryptocurrency P2P network daemon"
+
+command="/usr/bin/lkcoinsed"
+command_args="-pid=\"${LKCOINSED_PIDFILE}\" \
+		-conf=\"${LKCOINSED_CONFIGFILE}\" \
+		-datadir=\"${LKCOINSED_DATADIR}\" \
+		-daemon \
+		${LKCOINSED_OPTS}"
+
+required_files="${LKCOINSED_CONFIGFILE}"
+start_stop_daemon_args="-u ${LKCOINSED_USER} \
+			-N ${LKCOINSED_NICE} -w 2000"
+pidfile="${LKCOINSED_PIDFILE}"
+
+# The retry schedule to use when stopping the daemon. Could be either
+# a timeout in seconds or multiple signal/timeout pairs (like
+# "SIGKILL/180 SIGTERM/300")
+retry="${LKCOINSED_SIGTERM_TIMEOUT}"
+
+depend() {
+	need localmount net
+}
+
+# verify
+# 1) that the datadir exists and is writable (or create it)
+# 2) that a directory for the pid exists and is writable
+# 3) ownership and permissions on the config file
+start_pre() {
+	checkpath \
+	-d \
+	--mode 0750 \
+	--owner "${LKCOINSED_USER}:${LKCOINSED_GROUP}" \
+	"${LKCOINSED_DATADIR}"
+
+	checkpath \
+	-d \
+	--mode 0755 \
+	--owner "${LKCOINSED_USER}:${LKCOINSED_GROUP}" \
+	"${LKCOINSED_PIDDIR}"
+
+	checkpath -f \
+	-o ${LKCOINSED_USER}:${LKCOINSED_GROUP} \
+	-m 0660 \
+	${LKCOINSED_CONFIGFILE}
+
+	checkconfig || return 1
+}
+
+checkconfig()
+{
+	if ! grep -qs '^rpcpassword=' "${LKCOINSED_CONFIGFILE}" ; then
+		eerror ""
+		eerror "ERROR: You must set a secure rpcpassword to run lkcoinsed."
+		eerror "The setting must appear in ${LKCOINSED_CONFIGFILE}"
+		eerror ""
+		eerror "This password is security critical to securing wallets "
+		eerror "and must not be the same as the rpcuser setting."
+		eerror "You can generate a suitable random password using the following"
+		eerror "command from the shell:"
+		eerror ""
+		eerror "bash -c 'tr -dc a-zA-Z0-9 < /dev/urandom | head -c32 && echo'"
+		eerror ""
+		eerror "It is also recommended that you also set alertnotify so you are "
+		eerror "notified of problems:"
+		eerror ""
+		eerror "ie: alertnotify=echo %%s | mail -s \"Lkcoinse Alert\"" \
+			"admin@foo.com"
+		eerror ""
+		return 1
+	fi
+}

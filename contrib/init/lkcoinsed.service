@@ -1,0 +1,22 @@
+[Unit]
+Description=Lkcoinse's distributed currency daemon
+After=network.target
+
+[Service]
+User=lkcoinse
+Group=lkcoinse
+
+Type=forking
+PIDFile=/var/lib/lkcoinsed/lkcoinsed.pid
+ExecStart=/usr/bin/lkcoinsed -daemon -pid=/var/lib/lkcoinsed/lkcoinsed.pid \
+-conf=/etc/lkcoinse/lkcoinse.conf -datadir=/var/lib/lkcoinsed -disablewallet
+
+Restart=always
+PrivateTmp=true
+TimeoutStopSec=60s
+TimeoutStartSec=2s
+StartLimitInterval=120s
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target

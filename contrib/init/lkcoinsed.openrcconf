@@ -1,0 +1,33 @@
+# /etc/conf.d/lkcoinsed: config file for /etc/init.d/lkcoinsed
+
+# Config file location
+#LKCOINSED_CONFIGFILE="/etc/lkcoinse/lkcoinse.conf"
+
+# What directory to write pidfile to?  (created and owned by $LKCOINSED_USER)
+#LKCOINSED_PIDDIR="/var/run/lkcoinsed"
+
+# What filename to give the pidfile
+#LKCOINSED_PIDFILE="${LKCOINSED_PIDDIR}/lkcoinsed.pid"
+
+# Where to write lkcoinsed data (be mindful that the blockchain is large)
+#LKCOINSED_DATADIR="/var/lib/lkcoinsed"
+
+# User and group to own lkcoinsed process
+#LKCOINSED_USER="lkcoinse"
+#LKCOINSED_GROUP="lkcoinse"
+
+# Path to lkcoinsed executable
+#LKCOINSED_BIN="/usr/bin/lkcoinsed"
+
+# Nice value to run lkcoinsed under
+#LKCOINSED_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+LKCOINSED_OPTS="-disablewallet"
+
+# The timeout in seconds OpenRC will wait for lkcoinsed to terminate
+# after a SIGTERM has been raised.
+# Note that this will be mapped as argument to start-stop-daemon's
+# '--retry' option, which means you can specify a retry schedule
+# here. For more information see man 8 start-stop-daemon.
+LKCOINSED_SIGTERM_TIMEOUT=60

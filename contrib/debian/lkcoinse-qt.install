@@ -1,0 +1,6 @@
+usr/local/bin/lkcoinse-qt usr/bin
+share/pixmaps/lkcoinse32.xpm usr/share/pixmaps
+share/pixmaps/lkcoinse16.xpm usr/share/pixmaps
+share/pixmaps/lkcoinse128.png usr/share/pixmaps
+debian/lkcoinse-qt.desktop usr/share/applications
+debian/lkcoinse-qt.protocol usr/share/kde4/services/

@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Lkcoinse
+Comment=Lkcoinse P2P Cryptocurrency
+Comment[fr]=Lkcoinse, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Lkcoinse, eşten eşe kriptografik sanal para birimi
+Exec=lkcoinse-qt %u
+Terminal=false
+Type=Application
+Icon=lkcoinse128
+MimeType=x-scheme-handler/lkcoinsecash;
+Categories=Office;Finance;

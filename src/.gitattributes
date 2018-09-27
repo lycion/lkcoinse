@@ -1,0 +1,14 @@
+#
+# .gitattributes file
+#
+# NOTE: This file currently lists all files  that _might_ be required
+# to be formatted properly. The files listed here are filtered once
+# more by the list of files in .formatted-files before formatting
+# is applied.
+
+*.h filter=lkcoinse-clang-format
+*.cpp filter=lkcoinse-clang-format
+test/*.h filter=lkcoinse-clang-format
+test/*.cpp filter=lkcoinse-clang-format
+qt/*.h filter=lkcoinse-clang-format
+qt/*.cpp filter=lkcoinse-clang-format

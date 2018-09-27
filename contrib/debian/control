@@ -1,0 +1,66 @@
+Source: lkcoinse
+Section: utils
+Priority: optional
+Maintainer: Andrew Stone <g.andrew.stone@gmail.com>
+Uploaders: Andrea Suisani <sickpig@gmail.com>
+Build-Depends: debhelper,
+ devscripts,
+ automake,
+ libtool,
+ bash-completion,
+ libboost-system-dev (>> 1.35) | libboost-system1.35-dev,
+ libdb4.8++-dev,
+ libssl-dev,
+ libevent-dev,
+ pkg-config,
+ libminiupnpc8-dev | libminiupnpc-dev (>> 1.6),
+ libboost-filesystem-dev (>> 1.35) | libboost-filesystem1.35-dev,
+ libboost-program-options-dev (>> 1.35) | libboost-program-options1.35-dev,
+ libboost-thread-dev (>> 1.35) | libboost-thread1.35-dev,
+ libboost-test-dev (>> 1.35) | libboost-test1.35-dev,
+ qttools5-dev-tools, qttools5-dev,
+ libqrencode-dev,
+ libprotobuf-dev, protobuf-compiler,
+ python
+Standards-Version: 3.9.2
+Homepage: https://www.lkcoinse.info/
+Vcs-Git: git://github.com/Lkcoinse/Lkcoinse.git
+Vcs-Browser: https://github.com/Lkcoinse/Lkcoinse
+
+Package: lkcoinsed
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: peer-to-peer network based digital currency - daemon
+ Lkcoinse is an experimental new digital currency that enables instant
+ payments to anyone, anywhere in the world. Lkcoinse uses peer-to-peer
+ technology to operate with no central authority: managing transactions
+ and issuing money are carried out collectively by the network. Lkcoinse Unlimited
+ is the name of the open source software which enables the use of this currency.
+ .
+ This package provides the daemon, lkcoinsed, and the CLI tool
+ lkcoinse-cli to interact with the daemon.
+
+Package: lkcoinse-qt
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: peer-to-peer network based digital currency - Qt GUI
+ Lkcoinse is an experimental new digital currency that enables instant
+ payments to anyone, anywhere in the world. Lkcoinse uses peer-to-peer
+ technology to operate with no central authority: managing transactions
+ and issuing money are carried out collectively by the network. Lkcoinse Unlimited
+ is the name of the open source software which enables the use of this currency.
+ .
+ This package provides Lkcoinse-Qt, a GUI for Lkcoinse based on Qt.
+
+Package: lkcoinse-tx
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: peer-to-peer digital currency - standalone transaction tool
+ Lkcoinse is an experimental new digital currency that enables instant
+ payments to anyone, anywhere in the world. Lkcoinse uses peer-to-peer
+ technology to operate with no central authority: managing transactions
+ and issuing money are carried out collectively by the network.
+ .
+ This package provides lkcoinse-tx, a command-line transaction creation
+ tool which can be used without a lkcoinse daemon.  Some means of
+ exchanging minimal transaction data with peers is still required.
